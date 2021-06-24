@@ -1,4 +1,4 @@
-
+const db =require('./conn')
 class ClassSurveyModel {
     constructor(id, topic_name, topic_score) {
         this.id = id;
@@ -9,15 +9,15 @@ class ClassSurveyModel {
     static async getAllTopicData() {
         try {
             const response = await db.any(
-                `SELECT FROM topics
+                `SELECT * FROM topics
                     JOIN rankings
-                    ON topics.topic_score = rankings(id)
+                    ON topics.topic_score = rankings.id
                 ORDER BY topics.topic_name;
                 `
             )
-
+            return response
         } catch (error) {
-            console.error('ERROR: ', error);
+            console.error('ERROR: ', {error});
             return error;
         }
     }
